@@ -7,13 +7,15 @@ const { Node } = require('../extensions/list-tree.js');
  * using Node from extensions
  */
 module.exports = class BinarySearchTree {
-  
+  constructor(){
+    this._root = null;
+  }
   root() {
     return this._data;
    
   }
 
-  add(/* data */) {
+  add(data) {
     throw new NotImplementedError("Not implemented");
     // remove line with error and write your code here
   }
