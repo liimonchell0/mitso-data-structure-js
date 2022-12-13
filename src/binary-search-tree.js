@@ -23,17 +23,18 @@ module.exports = class BinarySearchTree {
    }
     let currentNode = this._root;
     while(currentNode){
-      if(node.data < currentNode.data){
+      if(data < currentNode.data){
         if(!currentNode.left){
-          currentNode = node;
+          currentNode.left = node;
           return;
         }
         currentNode = currentNode.left;
       } else{
         if(!currentNode.right){
-          currentNode = currentNode.right;
+          currentNode.right = node;
           return;
         }
+        currentNode = currentNode.right;
       }
     }
   }
@@ -42,23 +43,56 @@ module.exports = class BinarySearchTree {
     return !!this.find(data);
   }
 
-  find(/* data */) {
-    throw new NotImplementedError("Not implemented");
-    // remove line with error and write your code here
+  find(data) {
+    let currentNode = this._root;
+    while (currentNode){
+      if(data === currentNode.data) return currentNode;
+      if(data < currentNode.data) currentNode = currentNode.left;
+      else currentNode = currentNode.right;
+    }
+    return null;
   }
 
-  remove(/* data */) {
-    throw new NotImplementedError("Not implemented");
-    // remove line with error and write your code here
+  remove(data) {
+   this._root = this.removeCurrentNode(this._root,data);
+  }
+  removeCurrentNode(currentNode,data){
+  
+    if (currentNode === null) return currentNode;
+    if (data < currentNode.data) {
+      currentNode.left = this.removeCurrentNode(currentNode.left, data);
+      return currentNode;
+    } else if (data > currentNode.data) {
+      currentNode.right = this.removeCurrentNode(currentNode.right, data);
+      return currentNode;
+    }
+
+    if (currentNode.left === null) {
+      return currentNode.right;
+    } else if (currentNode.right === null) {
+      return currentNode.left;
+    }
+
+    currentNode.data = this.miData(currentNode.right);
+    currentNode.right = this.removeCurrentNode(currentNode.right, currentNode.data);
+    return currentNode;
   }
 
   min() {
-    throw new NotImplementedError("Not implemented");
-    // remove line with error and write your code here
+    return this.miData(this._root);
   }
-
+miData(currentNode){
+  let miNode = currentNode;
+  while(miNode.left){
+    miNode = miNode.left;
+  }
+  return miNode.data;
+}
   max() {
-    throw new NotImplementedError("Not implemented");
-    // remove line with error and write your code here
+    let miNode = this._root;
+    while (miNode.right){
+      miNode = miNode.right;
+    }
+    return miNode.data;
   }
 };
